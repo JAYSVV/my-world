@@ -599,5 +599,18 @@
     window.addEventListener('scroll', activateLink);
     activateLink();
   </script>
+
+<audio id="bgm" loop>
+  <source src="lemonmusiclab-dark-ambient-soundscape-505384.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  document.addEventListener("click", () => {
+    const bgm = document.getElementById("bgm");
+    bgm.volume = 0.25;
+    bgm.play();
+  }, { once: true });
+</script>
+
 </body>
 </html>
