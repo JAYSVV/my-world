@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>세계관 소개 사이트</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --bg2: #131a30;
+      --card: rgba(255,255,255,0.08);
+      --line: rgba(255,255,255,0.12);
+      --text: #eef2ff;
+      --sub: #b8c0e0;
+      --accent: #8fb3ff;
+      --accent2: #c7a6ff;
+      --shadow: 0 20px 60px rgba(0,0,0,0.35);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Pretendard", "Noto Sans KR", system-ui, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(143,179,255,0.18), transparent 28%),
+        radial-gradient(circle at top right, rgba(199,166,255,0.12), transparent 24%),
+        linear-gradient(180deg, #090d18 0%, var(--bg) 40%, #070b14 100%);
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .container {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(16px);
+      background: rgba(8, 12, 24, 0.6);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 14px 0;
+    }
+
+    .brand {
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      font-size: 0.98rem;
+    }
+
+    .menu {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .menu a {
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: var(--sub);
+      transition: 0.2s ease;
+    }
+
+    .menu a:hover,
+    .menu a.active {
+      color: var(--text);
+      background: rgba(255,255,255,0.08);
+    }
+
+    .hero {
+      padding: 96px 0 64px;
+    }
+
+    .hero-wrap {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 999px;
+      color: var(--sub);
+      font-size: 0.92rem;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.3rem, 5vw, 4.8rem);
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+    }
+
+    .hero p {
+      font-size: 1.04rem;
+      color: var(--sub);
+      max-width: 58ch;
+      margin: 18px 0 0;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 18px;
+      border-radius: 14px;
+      font-weight: 700;
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .button:hover { transform: translateY(-1px); }
+    .button.primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #0b1020;
+      border: none;
+    }
+
+    .button.ghost {
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+    }
+
+    .hero-card,
+    .panel,
+    .card,
+    .timeline-item,
+    .place-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card {
+      border-radius: 28px;
+      overflow: hidden;
+      position: relative;
+      min-height: 440px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03)),
+        url('https://images.unsplash.com/photo-1518562180175-34a163b1a9a6?auto=format&fit=crop&w=1200&q=80') center/cover;
+    }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(9,13,24,0.1), rgba(9,13,24,0.78));
+    }
+
+    .hero-card-content {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      bottom: 24px;
+      z-index: 1;
+    }
+
+    .hero-card h3 {
+      margin: 0 0 8px;
+      font-size: 1.4rem;
+    }
+
+    .hero-card p {
+      margin: 0;
+      color: #d8def6;
+    }
+
+    section {
+      padding: 28px 0 64px;
+      scroll-margin-top: 86px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(1.6rem, 2.2vw, 2.3rem);
+      letter-spacing: -0.03em;
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--sub);
+    }
+
+    .panel {
+      padding: 22px;
+      border-radius: 24px;
+    }
+
+    .world-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .world-grid .mini {
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .world-grid h4,
+    .card h3,
+    .place-card h3,
+    .timeline-item h4 {
+      margin: 0 0 8px;
+    }
+
+    .muted { color: var(--sub); }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .chip {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: #d9e2ff;
+      font-size: 0.92rem;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      border-radius: 22px;
+      overflow: hidden;
+      transition: transform 0.22s ease, border-color 0.22s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(255,255,255,0.22);
+    }
+
+    .card-image {
+      aspect-ratio: 4 / 4.8;
+      background: center/cover;
+    }
+
+    .card-content {
+      padding: 18px;
+    }
+
+    .card-role {
+      display: inline-block;
+      font-size: 0.84rem;
+      color: #d4ddff;
+      background: rgba(143,179,255,0.12);
+      border: 1px solid rgba(143,179,255,0.18);
+      padding: 6px 10px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 14px;
+    }
+
+    .timeline-item {
+      border-radius: 20px;
+      padding: 18px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: linear-gradient(180deg, var(--accent), var(--accent2));
+    }
+
+    .timeline-date {
+      font-size: 0.9rem;
+      color: #d3dbfd;
+      margin-bottom: 6px;
+    }
+
+    .places {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .place-card {
+      border-radius: 22px;
+      overflow: hidden;
+    }
+
+    .place-image {
+      aspect-ratio: 16 / 9;
+      background: center/cover;
+    }
+
+    .place-content {
+      padding: 18px;
+    }
+
+    .footer {
+      padding: 32px 0 60px;
+      color: var(--sub);
+      text-align: center;
+    }
+
+    .fade-up {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .fade-up.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 980px) {
+      .hero-wrap,
+      .cards,
+      .places,
+      .world-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .nav-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .hero {
+        padding-top: 64px;
+      }
+
+      .hero-wrap,
+      .cards,
+      .places,
+      .world-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-card {
+        min-height: 320px;
+      }
+
+      .section-head {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#top">ALDERA ARCHIVE</a>
+      <div class="menu">
+        <a href="#world">세계관</a>
+        <a href="#characters">인물</a>
+        <a href="#timeline">연대기</a>
+        <a href="#places">주요 무대</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <div class="container hero-wrap">
+      <div class="fade-up show">
+        <div class="eyebrow">판타지 세계관 소개 페이지 템플릿</div>
+        <h1>네 세계관을<br>한눈에 보여주는 사이트</h1>
+        <p>
+          이 템플릿은 세계관, 캐릭터, 연대기, 지역 정보를 깔끔하게 정리해서 보여주기 위한 기본 구조야.
+          텍스트와 이미지, 이름만 바꾸면 바로 네 설정 페이지처럼 쓸 수 있어.
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="#world">세계관 보기</a>
+          <a class="button ghost" href="#characters">인물 보기</a>
+        </div>
+      </div>
+
+      <div class="hero-card fade-up show">
+        <div class="hero-card-content">
+          <h3>알데라 378년</h3>
+          <p>영웅이 사라진 시대. 생존과 욕망, 전쟁과 마법이 얽힌 잔혹한 현실.</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="world">
+      <div class="container">
+        <div class="section-head fade-up">
+          <div>
+            <h2>세계관</h2>
+            <p>이 세계가 어떤 분위기와 규칙으로 움직이는지 정리하는 영역</p>
+          </div>
+        </div>
+
+        <div class="panel fade-up">
+          <p>
+            알데라 대륙은 오랜 전쟁과 마력 재해로 인해 문명이 무너지고 다시 세워진 곳이다.
+            왕도 밖의 길은 늘 위험하며, 인간과 몬스터, 귀족과 용병 모두 각자의 방식으로 살아남는다.
+            누군가를 구원하는 영웅담보다, 오늘을 버티는 생존기가 더 현실적인 세계다.
+          </p>
+
+          <div class="chips">
+            <span class="chip">잔혹한 판타지</span>
+            <span class="chip">오픈월드 구조</span>
+            <span class="chip">마력 재해</span>
+            <span class="chip">생존 중심</span>
+            <span class="chip">성장형 서사</span>
+          </div>
+
+          <div class="world-grid">
+            <div class="mini">
+              <h4>배경 시대</h4>
+              <div class="muted">알데라 378년. 질서가 무너진 뒤 다시 세워지는 과도기.</div>
+            </div>
+            <div class="mini">
+              <h4>핵심 갈등</h4>
+              <div class="muted">권력, 마법, 생존, 신분, 몬스터 위협이 동시에 얽힘.</div>
+            </div>
+            <div class="mini">
+              <h4>분위기</h4>
+              <div class="muted">낭만보다 현실이 앞서고, 선택에는 대가가 따르는 세계.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="characters">
+      <div class="container">
+        <div class="section-head fade-up">
+          <div>
+            <h2>주요 인물</h2>
+            <p>캐릭터 카드 형태로 넣으면 보기 편함</p>
+          </div>
+        </div>
+
+        <div class="cards">
+          <article class="card fade-up">
+            <div class="card-image" style="background-image:url('https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=900&q=80');"></div>
+            <div class="card-content">
+              <span class="card-role">주인공</span>
+              <h3>이름 입력</h3>
+              <p class="muted">이 캐릭터가 어떤 인물인지, 성격과 목표, 특징을 2~3문장 정도로 적는 영역.</p>
+            </div>
+          </article>
+
+          <article class="card fade-up">
+            <div class="card-image" style="background-image:url('https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=900&q=80');"></div>
+            <div class="card-content">
+              <span class="card-role">조력자</span>
+              <h3>이름 입력</h3>
+              <p class="muted">주인공과 얽힌 배경, 관계, 강점, 약점을 적어주면 카드 소개가 완성됨.</p>
+            </div>
+          </article>
+
+          <article class="card fade-up">
+            <div class="card-image" style="background-image:url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=900&q=80');"></div>
+            <div class="card-content">
+              <span class="card-role">핵심 인물</span>
+              <h3>이름 입력</h3>
+              <p class="muted">적대자, 라이벌, 동료 등 어떤 위치인지 적고 서사의 긴장감을 보여주면 좋음.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="timeline">
+      <div class="container">
+        <div class="section-head fade-up">
+          <div>
+            <h2>연대기</h2>
+            <p>세계관의 중요한 사건을 시간순으로 배치하는 영역</p>
+          </div>
+        </div>
+
+        <div class="timeline">
+          <div class="timeline-item fade-up">
+            <div class="timeline-date">알데라 390년</div>
+            <h4>마법대제 발생</h4>
+            <div class="muted">검은 구체의 낙하와 함께 대륙의 질서가 뒤바뀌고, 수많은 생명과 지역이 변질되었다.</div>
+          </div>
+          <div class="timeline-item fade-up">
+            <div class="timeline-date">이후 수년</div>
+            <h4>왕국 재편과 영토 붕괴</h4>
+            <div class="muted">무너진 지역을 두고 왕국, 귀족, 용병단, 마족 세력이 각자의 영역을 세우기 시작했다.</div>
+          </div>
+          <div class="timeline-item fade-up">
+            <div class="timeline-date">현재 시점</div>
+            <h4>주인공의 여정 시작</h4>
+            <div class="muted">생존을 위한 선택이 결국 세계 전체의 흐름을 흔드는 서사의 출발점이 된다.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="places">
+      <div class="container">
+        <div class="section-head fade-up">
+          <div>
+            <h2>주요 무대</h2>
+            <p>지역별 분위기와 특징을 이미지와 함께 보여주는 영역</p>
+          </div>
+        </div>
+
+        <div class="places">
+          <article class="place-card fade-up">
+            <div class="place-image" style="background-image:url('https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&fit=crop&w=1200&q=80');"></div>
+            <div class="place-content">
+              <h3>왕도</h3>
+              <p class="muted">겉보기에 가장 안전하지만 권력 암투와 계급 질서가 가장 치열하게 살아 있는 중심 도시.</p>
+            </div>
+          </article>
+
+          <article class="place-card fade-up">
+            <div class="place-image" style="background-image:url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80');"></div>
+            <div class="place-content">
+              <h3>마경</h3>
+              <p class="muted">오염된 마력이 남아 있는 위험 지역. 몬스터, 유적, 금지된 마법의 흔적이 공존한다.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer container">
+    이 파일 하나만으로도 기본 사이트가 돌아가게 만들어 둠. 텍스트, 이미지 주소, 제목만 바꾸면 바로 사용 가능.
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add('show');
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-up').forEach((el, index) => {
+      if (!el.classList.contains('show')) {
+        el.style.transitionDelay = `${Math.min(index * 60, 240)}ms`;
+      }
+      observer.observe(el);
+    });
+
+    const sections = [...document.querySelectorAll('main section')];
+    const navLinks = [...document.querySelectorAll('.menu a')];
+
+    const activateLink = () => {
+      const fromTop = window.scrollY + 120;
+      let current = sections[0]?.id;
+      sections.forEach((section) => {
+        if (section.offsetTop <= fromTop) current = section.id;
+      });
+      navLinks.forEach((link) => {
+        link.classList.toggle('active', link.getAttribute('href') === `#${current}`);
+      });
+    };
+
+    window.addEventListener('scroll', activateLink);
+    activateLink();
+  </script>
+</body>
+</html>
