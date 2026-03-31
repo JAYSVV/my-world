@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>세계관 소개 사이트</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --bg2: #131a30;
+      --card: rgba(255,255,255,0.08);
+      --line: rgba(255,255,255,0.12);
+      --text: #eef2ff;
+      --sub: #b8c0e0;
+      --accent: #8fb3ff;
+      --accent2: #c7a6ff;
+      --shadow: 0 20px 60px rgba(0,0,0,0.35);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Pretendard", "Noto Sans KR", system-ui, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top, rgba(255,255,255,0.03), transparent 20%),
+        linear-gradient(180deg, #000000 0%, #030303 50%, #000000 100%);
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .container {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(16px);
+      background: rgba(0, 0, 0, 0.88);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 14px 0;
+    }
+
+    .brand {
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      font-size: 0.98rem;
+    }
+
+    .menu {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .menu a {
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: var(--sub);
+      transition: 0.2s ease;
+    }
+
+    .menu a:hover,
+    .menu a.active {
+      color: var(--text);
+      background: rgba(255,255,255,0.08);
+    }
+
+    .hero {
+      min-height: calc(100vh - 72px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.04), transparent 28%),
+        linear-gradient(180deg, #020202 0%, #050505 48%, #020202 100%);
+    }
+
+    .hero-simple {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+    }
+
+    .hero-kicker {
+      margin: 0;
+      font-size: 0.9rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.46);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(3rem, 8vw, 7rem);
+      line-height: 1;
+      letter-spacing: -0.06em;
+      font-weight: 800;
+      color: #f5f5f5;
+      text-shadow: 0 0 24px rgba(255,255,255,0.05);
+    }
+
+    section {
+      padding: 28px 0 64px;
+      scroll-margin-top: 86px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(1.6rem, 2.2vw, 2.3rem);
+      letter-spacing: -0.03em;
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--sub);
+    }
+
+    .panel {
+      padding: 22px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: none;
+    }
+
+    .world-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .world-grid .mini {
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .world-grid h4,
+    .card h3,
+    .place-card h3,
+    .timeline-item h4 {
+      margin: 0 0 8px;
+    }
+
+    .muted { color: var(--sub); }
+
+    .rank {
+      margin-bottom: 12px;
+      color: #ff4d4d;
+      font-weight: 700;
+    }
+
+    .job {
+      margin-bottom: 8px;
+    }
+
+    .job:last-child {
+      margin-bottom: 0;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .chip {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: #d9e2ff;
+      font-size: 0.92rem;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    @media (max-width: 980px) {
+      .cards { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 720px) {
+      .cards { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      border-radius: 22px;
+      overflow: hidden;
+      transition: transform 0.22s ease, border-color 0.22s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(255,255,255,0.22);
+    }
+
+    .card-image {
+      aspect-ratio: 4 / 4.8;
+      background: center/cover;
+    }
+
+    .card-content {
+      padding: 18px;
+    }
+
+    .card-role {
+      display: inline-block;
+      font-size: 0.84rem;
+      color: #d4ddff;
+      background: rgba(143,179,255,0.12);
+      border: 1px solid rgba(143,179,255,0.18);
+      padding: 6px 10px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 14px;
+    }
+
+    .timeline-item {
+      border-radius: 20px;
+      padding: 18px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: linear-gradient(180deg, var(--accent), var(--accent2));
+    }
+
+    .timeline-date {
+      font-size: 0.9rem;
+      color: #d3dbfd;
+      margin-bottom: 6px;
+    }
+
+    .places {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    @media (max-width: 980px) {
+      .places { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 720px) {
+      .places { grid-template-columns: 1fr; }
+    }
+
+    .place-card {
+      border-radius: 22px;
+      overflow: hidden;
+    }
+
+    .place-image {
+      aspect-ratio: 16 / 9;
+      background: center/cover;
+    }
+
+    .place-content {
+      padding: 18px;
+    }
+
+    .footer {
+      padding: 32px 0 60px;
+      color: var(--sub);
+      text-align: center;
+    }
+
+    .fade-up {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .fade-up.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 980px) {
+      .hero-wrap,
+      .cards,
+      .places,
+      .world-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .nav-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .hero {
+        padding-top: 64px;
+      }
+
+      .hero-wrap,
+      .cards,
+      .places,
+      .world-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-card {
+        min-height: 320px;
+      }
+
+      .section-head {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#top">Aldela</a>
+      <div class="menu">
+        <a href="#world">세계관</a>
+        <a href="#characters">인물</a>
+        <a href="#timeline">연대기</a>
+        <a href="#places">주요 무대</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <div class="container hero-simple fade-up show">
+      <p class="hero-kicker">Aldela Archive</p>
+      <h1>종언전생 | AFTER</h1>
+    </div>
+  </header>
+
+  <main>
+    <section id="world">
+      <div class="container">
+        <div class="section-head fade-up">
+          <div>
+            <h2>세계관</h2>
+          </div>
+        </div>
+
+        <div class="panel fade-up">
+          <p>
+            알델라는 마전이재해이후 오랜 세월이 흐른 끝에, 영웅의 이름이 전설과 혈통으로만 남은 시대다. 수많은 가문이 흥망을 거듭했고, 과거의 사건은 기록과 유산 속에 조각난 채 전해진다. 지금의 시대는 누군가 세상을 구하는 영웅담보다, 살아남은 후손들이 각자의 방식으로 세계를 이어가는 현실에 더 가깝다.
+          </p>
+
+          <div class="world-grid">
+            <div class="mini">
+              <h4>배경 시대</h4>
+              <div class="muted">
+                알델라력 1417년. 오래된 전설과 혈통만 남은 뒤의 시대.
+              </div>
+            </div>
+
+            <div class="mini">
+              <h4>직업 | 등급</h4>
+              <div class="rank">
+                초급 → 중급 → 상급 → 성급 → 왕급 → 제급 → 신급
+              </div>
+              <div class="muted">
+                <div class="job">
+                  <strong style="color: var(--text);">검사</strong>:
+                  검술·체술 기반의 최전방에서 전투하는 직업
+                </div>
+                <div class="job">
+                  <strong style="color: var(--text);">마법사</strong>:
+                  속성·치유·결계·소환 네 계열의 마법을 후방에서 다루는 직업
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="characters">
+      <div class="container">
+        <div class="section-head fade-up">
+          <div>
+            <h2>주요 인물</h2>
+          </div>
+        </div>
+
+        <div class="cards">
+          <article class="card fade-up">
+            <div class="card-image" style="background-image:url('https://i.imgur.com/fjBGqzX.jpeg');"></div>
+            <div class="card-content">
+              <span class="card-role">하프엘프</span>
+              <h3>시아</h3>
+              <p class="muted">초급 | 마법사 | 힐링 | 소꿉친구 | 소심</p>
+            </div>
+          </article>
+
+          <article class="card fade-up">
+            <div class="card-image" style="background-image:url('https://i.imgur.com/WwNYIGr.jpeg');"></div>
+            <div class="card-content">
+              <span class="card-role">청마족</span>
+              <h3>엘린</h3>
+              <p class="muted">성급 | 마법사 | 수·속성 마법 | 스승님 | 덤벙</p>
+            </div>
+          </article>
+
+          <article class="card fade-up">
+            <div class="card-image" style="background-image:url('https://i.imgur.com/AxiFf0G.jpeg');"></div>
+            <div class="card-content">
+              <span class="card-role">인간</span>
+              <h3>세라</h3>
+              <p class="muted">상급 | 검사 | 화룡광도 | 카리샤 왕국의 최상류층 딸 | 근육뇌</p>
+            </div>
+          </article>
+
+          <article class="card fade-up">
+            <div class="card-image" style="background-image:url('https://i.imgur.com/RaP2x6S.jpeg');"></div>
+            <div class="card-content">
+              <span class="card-role">용</span>
+              <h3>드루나</h3>
+              <p class="muted">신급 | 마법사 | 인간화·불로 | 붉은 용 | 낙천주의</p>
+            </div>
+          </article>
+
+          <article class="card fade-up">
+            <div class="card-image" style="background-image:url('https://i.imgur.com/MSMY6RC.png');"></div>
+            <div class="card-content">
+              <span class="card-role">인간</span>
+              <h3>킬리아 발렌타인</h3>
+              <p class="muted">제급 | 검사 | 현월류 | 라그산문의 관장 | 정의로움</p>
+            </div>
+          </article>
+
+          <article class="card fade-up">
+            <div class="card-image" style="background-image:url('https://i.imgur.com/jvZtllH.jpeg');"></div>
+            <div class="card-content">
+              <span class="card-role">악마</span>
+              <h3>리벨</h3>
+              <p class="muted">신급 | 마법사 | 불로·마안 | 가드본의 아내 | 엉뚱</p>
+            </div>
+          </article>
+
+          <article class="card fade-up">
+            <div class="card-image" style="background-image:url('https://i.imgur.com/jFdNZp5.jpeg');"></div>
+            <div class="card-content">
+              <span class="card-role">마인</span>
+              <h3>가드본</h3>
+              <p class="muted">신급 | 마법사 | 불로불사·앱솔루트 바디 | 리벨의 남편 | 유쾌</p>
+            </div>
+          </article>
+
+          <article class="card fade-up">
+            <div class="card-image" style="background-image:url('https://i.imgur.com/5xsqhVy.png');"></div>
+            <div class="card-content">
+              <span class="card-role">다크엘프</span>
+              <h3>제리아</h3>
+              <p class="muted">왕급 | 마법사 | 유혹·러브 드레인 | 마류산의 수호자 | 요염</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="timeline">
+      <div class="container">
+        <div class="section-head fade-up">
+          <div>
+            <h2>연대기</h2>
+          </div>
+        </div>
+
+        <div class="timeline">
+          <div class="timeline-item fade-up">
+            <div class="timeline-date">알데라 1027년</div>
+            <h4>마전이재해 발생</h4>
+            <div class="muted">검은 마나 구체의 낙하와 함께 대륙의 질서가 뒤바뀌고, 수많은 생명과 지역이 변질되었다.</div>
+          </div>
+          <div class="timeline-item fade-up">
+            <div class="timeline-date">이후 수년</div>
+            <h4>왕국 재편과 영토 붕괴</h4>
+            <div class="muted">무너진 지역을 두고 왕국, 귀족, 용병단, 마족 세력이 각자의 영역을 세우기 시작했다.</div>
+          </div>
+          <div class="timeline-item fade-up">
+            <div class="timeline-date">현재 시점 | 알델라력 1417년</div>
+            <h4>주인공의 여정 시작</h4>
+            <div class="muted">생존을 위한 선택이 결국 세계 전체의 흐름을 흔드는 서사의 출발점이 된다.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="places">
+      <div class="container">
+        <div class="section-head fade-up">
+          <div>
+            <h2>주요 무대</h2>
+          </div>
+        </div>
+
+        <div class="places">
+          <article class="place fade-up">
+            <div class="place-image" style="background-image:url('https://i.imgur.com/qoeqXBk.png');"></div>
+            <div class="place-content">
+              <h3>왕도</h3>
+              <p class="muted">인간 최대 규모의 중심 도시, 정치·상업·전투·교육·생활의 모든 핵심의 도시.</p>
+            </div>
+          </article>
+
+          <article class="place fade-up">
+            <div class="place-image" style="background-image:url('https://i.imgur.com/Umq7ftM.png');"></div>
+            <div class="place-content">
+              <h3>마라빌 마법 대학교</h3>
+              <p class="muted">왕도 내 위치, 마법·검술·궁술·체술 등 전투 기술과 이론을 교육하는 최대·최고 기관.</p>
+            </div>
+          </article>
+
+          <article class="place fade-up">
+            <div class="place-image" style="background-image:url('https://i.imgur.com/1ZE7hx4.png');"></div>
+            <div class="place-content">
+              <h3>카리샤 왕국</h3>
+              <p class="muted">왕도 동쪽, 마대륙에서 제일 가까운 인간 대륙의 왕국.</p>
+            </div>
+          </article>
+
+          <article class="place fade-up">
+            <div class="place-image" style="background-image:url('https://i.imgur.com/wR8jvxS.png');"></div>
+            <div class="place-content">
+              <h3>마대륙</h3>
+              <p class="muted">왕도 동쪽끝, 마족의 영역, 보랏빛 하늘 아래 죽은 식물이 뒤덮인 황폐한 땅.</p>
+            </div>
+          </article>
+
+          <article class="place fade-up">
+            <div class="place-image" style="background-image:url('https://i.imgur.com/6tEJ257.png');"></div>
+            <div class="place-content">
+              <h3>용의 산맥</h3>
+              <p class="muted">왕도 북쪽의 적용들이 무리를 지어 사는 산이며 1년 내내 강한 눈바람이 분다.</p>
+            </div>
+          </article>
+
+          <article class="place fade-up">
+            <div class="place-image" style="background-image:url('https://i.imgur.com/mV2Y0qz.png');"></div>
+            <div class="place-content">
+              <h3>라그산문</h3>
+              <p class="muted">왕도 남쪽의 안개·폭포·대나무산으로 둘러싸인 오래된 도장만 남은 곳.</p>
+            </div>
+          </article>
+
+          <article class="place fade-up">
+            <div class="place-image" style="background-image:url('https://i.imgur.com/6XaAMR3.png');"></div>
+            <div class="place-content">
+              <h3>브레노아 마을</h3>
+              <p class="muted">왕도 북서쪽 끝에 있는 작은 인간 마을.</p>
+            </div>
+          </article>
+
+          <article class="place fade-up">
+            <div class="place-image" style="background-image:url('https://i.imgur.com/rcy0UMb.png');"></div>
+            <div class="place-content">
+              <h3>마류산</h3>
+              <p class="muted">왕도 서쪽, 다크 엘프들이 수호하고 있는 산.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer container">
+    
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add('show');
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-up').forEach((el, index) => {
+      if (!el.classList.contains('show')) {
+        el.style.transitionDelay = `${Math.min(index * 60, 240)}ms`;
+      }
+      observer.observe(el);
+    });
+
+    const sections = [...document.querySelectorAll('main section')];
+    const navLinks = [...document.querySelectorAll('.menu a')];
+
+    const activateLink = () => {
+      const fromTop = window.scrollY + 120;
+      let current = sections[0]?.id;
+      sections.forEach((section) => {
+        if (section.offsetTop <= fromTop) current = section.id;
+      });
+      navLinks.forEach((link) => {
+        link.classList.toggle('active', link.getAttribute('href') === `#${current}`);
+      });
+    };
+
+    window.addEventListener('scroll', activateLink);
+    activateLink();
+  </script>
+
+  <audio id="bgm" loop preload="auto">
+    <source src="lemonmusiclab-dark-ambient-soundscape-505384.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const bgm = document.getElementById("bgm");
+
+    async function startBgm() {
+      try {
+        bgm.volume = 0.25;
+        await bgm.play();
+        window.removeEventListener("pointerdown", startBgm);
+        window.removeEventListener("keydown", startBgm);
+      } catch (e) {
+        console.log("재생 막힘:", e);
+      }
+    }
+
+    window.addEventListener("pointerdown", startBgm, { once: true });
+    window.addEventListener("keydown", startBgm, { once: true });
+  </script>
+
+</body>
+</html>
